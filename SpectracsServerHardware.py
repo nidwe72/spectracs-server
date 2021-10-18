@@ -1,6 +1,7 @@
 import platform
 import cpuinfo
 from getmac import get_mac_address as gma
+import SpectralSensorName
 
 class SpectracsServerServer:
 
@@ -41,6 +42,45 @@ class SpectracsServerServer:
 
     def getMac(self):
         return self.mac
+
+class SpectralSensor:
+
+    name="spectralSensor"
+
+    def __init__(self):
+        self.setName("spectralSensor")
+
+    def __setName(self,name):
+        self.name=name;
+
+    def getName(self):
+        return self.name
+
+class AmsSpectralSensor(SpectralSensor):
+
+    gain=3
+    
+    def __init__(self):
+        Base.__init__(self)
+
+    def setGain(self,gain):
+        self.gain=gain;
+
+    def getGain(self):
+        return self.gain
+
+
+class AmsAs7262SpectralSensor(AmsSpectralSensor):
+
+    def __init__(self):
+
+        Base.__init__(self)
+
+        self.setName(SpectralSensorName.SpectralSensorName.AMS_7262)
+
+
+
+
 
 
 

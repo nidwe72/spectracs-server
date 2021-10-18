@@ -18,6 +18,8 @@ import argparse
 from colormath.color_objects import SpectralColor,XYZColor,sRGBColor
 from colormath.color_conversions import convert_color
 
+from firmware.as7265x import As7265x
+
 
 class ConsolePrinter:
 
@@ -144,14 +146,19 @@ class SpectracsRequestHandler(BaseHTTPRequestHandler):
 
             spectralMeasurement.setValues({450:710.54541015625/32000.0,500:2814.272705078125/32000.0,550:1892.8314208984375/32000.0,570:3259.364013671875/32000.0,600:2497.695556640625/32000.0,650:4386.8564453125/32000.0})
 
+
+
             factor=500
 
-            spectralMeasurement.setValues({450:710.54541015625/factor,500:2814.272705078125/factor,550:1892.8314208984375/factor,570:3259.364013671875/factor,600:2497.695556640625/factor,650:4386.8564453125/factor})
-
-
+            #spectralMeasurement.setValues({450:710.54541015625/factor,500:2814.272705078125/factor,550:1892.8314208984375/factor,570:3259.364013671875/factor,600:2497.695556640625/factor,650:4386.8564453125/factor})
+            spectralMeasurement.setValues({450:random(),500:random(),550:random(),570:random(),600:random(),650:random()})
 
 
                 #foo= [5.880025863647461, 4.03620719909668, 0.9279702305793762, 1.0741294622421265, 1.1915769577026367, 1.1165746450424194];
+
+            as7265x=As7265x.As7265x()
+            spectralMeasurement.setValues(as7265x.measure())
+
 
 
             timestamp=datetime.now()
@@ -163,10 +170,10 @@ class SpectracsRequestHandler(BaseHTTPRequestHandler):
 
 
 
-            xyzcol = self.spectral_to_xyz(spectralMeasurement) 
+            #xyzcol = self.spectral_to_xyz(spectralMeasurement) 
             #rgbcol=self.convert_to_rgb(xyzcol,1))
 
-            print (xyzcol)
+            #print (xyzcol)
 
 
             
@@ -257,6 +264,8 @@ if __name__ == "__main__":
     #print(spectracsServer.getCommandLineArguments())
 
     ConsolePrinter.getInstance().printStatusLine("started server")
+
+
 
     try:
         spectracsServer.serve_forever()
