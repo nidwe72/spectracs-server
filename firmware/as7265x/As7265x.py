@@ -31,6 +31,9 @@ class As7265x:
 
         result={}
 
+        self.setGain(3)
+        self.setLEDDriveCurrent(3)
+
         nanometers=[410,435,460,495,510,535,560,585,610,645,680,705,730,760,810,860,900,940]
 
         self.shutterLED("AS72651",True)

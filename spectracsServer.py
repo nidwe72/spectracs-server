@@ -15,6 +15,8 @@ import SpectralSensorName
 import sys
 import argparse
 
+from firmware.spectrometerCameraSensor import SpectrometerCameraSensor
+
 from colormath.color_objects import SpectralColor,XYZColor,sRGBColor
 from colormath.color_conversions import convert_color
 
@@ -128,47 +130,19 @@ class SpectracsRequestHandler(BaseHTTPRequestHandler):
         action=query['action'][0]    
 
         if action=='measurement':
-            ConsolePrinter.getInstance().printStatusLine("measurement: 32665,32665,32665,32665,32665,32665")
-            spectralMeasurement=SpectralMeasurement.SpectralMeasurementAms7262()
-            #spectralMeasurement.setValues({450:random(),500:random(),550:random(),570:random(),600:random(),650:random()})
-
             
-            #spectralMeasurement.setValues({450:1.1165746450424194,500:1.1915769577026367,550:1.0741294622421265,570:0.9279702305793762,600:4.03620719909668,650:5.880025863647461})
+            spectrometerCameraSensor=SpectrometerCameraSensor.SpectrometerCameraSensor()
+            
+            spectralMeasurement=SpectralMeasurement.SpectralMeasurement()
 
-
-
-
-            spectralMeasurement.setValues({450:0.0,500:0,550:0,570:0,600:0,650:20000.0/32000.0})
-
-            spectralMeasurement.setValues({450:0.0,500:0,550:0,570:0,600:0,650:4000.0/32000.0})
-
-            spectralMeasurement.setValues({450:0,500:0,550:15000.0/32000.0,570:0,600:0,650:20000.0/32000.0})
-
-            spectralMeasurement.setValues({450:710.54541015625/32000.0,500:2814.272705078125/32000.0,550:1892.8314208984375/32000.0,570:3259.364013671875/32000.0,600:2497.695556640625/32000.0,650:4386.8564453125/32000.0})
-
-
-
-            factor=500
-
-            #spectralMeasurement.setValues({450:710.54541015625/factor,500:2814.272705078125/factor,550:1892.8314208984375/factor,570:3259.364013671875/factor,600:2497.695556640625/factor,650:4386.8564453125/factor})
-            spectralMeasurement.setValues({450:random(),500:random(),550:random(),570:random(),600:random(),650:random()})
-
-
-                #foo= [5.880025863647461, 4.03620719909668, 0.9279702305793762, 1.0741294622421265, 1.1915769577026367, 1.1165746450424194];
-
-            as7265x=As7265x.As7265x()
-            spectralMeasurement.setValues(as7265x.measure())
-
-
+            #as7265x=As7265x.As7265x()
+            #spectralMeasurement.setValues(as7265x.measure())
 
             timestamp=datetime.now()
             cur_day_format = timestamp.strftime("%Y-%m-%d,%H:%M:%S ")
             ConsolePrinter.getInstance().printStatusLine(cur_day_format+'measurement')
 
             self.wfile.write(bytes(jsonpickle.encode(spectralMeasurement).replace('py/object','class'), "utf-8"))
-
-
-
 
             #xyzcol = self.spectral_to_xyz(spectralMeasurement) 
             #rgbcol=self.convert_to_rgb(xyzcol,1))
